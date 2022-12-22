@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://kit.fontawesome.com/980aa8700b.js" crossorigin="anonymous"></script>
+    <title>Library</title>
+</head>
+<body>
+    <section class="landing-page">
+        <h1 class="landing-page__heading">Classic Children's Books</h1>
+        <section class="landing-page__library"></section>
+    </section>
+
+    <section class="book-page">
+        <section class="book-page__overlay">
+            <header class="overlay__header">
+                <button id="header__close-btn" class="btn"><i class="fa-solid fa-arrow-left"></i></button>
+            </header>
+            <section class="overlay__book-info">
+                <article class="book-info__cover">
+                    <h2 class="cover__title"></h2>
+                    <h4 class="cover__author"></h4>
+                </article>
+                <article class="book-info__details">
+                    <h2 class="details__title"></h2>
+                    <h3 class="details__author"></h3>
+                    <p class="details__plot"></p>
+                    <article class="details__stats">
+                        <p class="stats__text">Audience <br><span class="stats__audience"></span></p>
+                        <p class="stats__text">Pages <br><span class="stats__pages"></span></p>
+                        <p class="stats__text">First Published <br><span class="stats__year"></span></p>
+                        <p class="stats__text">Publisher <br><span class="stats__publisher"></span></p>
+                    </article>
+                    <button id="details__read-btn" class="btn">I want to read it!</button>
+                </article>
+            </section>
+        </section>
+    </section>
+    <script src="./js/index.js"></script>
+</body>
+</html>
