@@ -87,6 +87,27 @@ h4 {
   margin-bottom: 0;
 }
 
+.landing-page__header {
+  background-color: #c4c4c41f;
+  width: 87.5%;
+  padding: 0.4rem;
+  border-radius: 3px;
+}
+
+.header__form {
+  display: flex;
+  gap: 0.3rem;
+  justify-content: flex-end;
+}
+
+#search-input {
+  padding: 0.5rem;
+  width: 15rem;
+  border-radius: 3px;
+  border: none;
+  font-size: 1rem;
+}
+
 .landing-page__library {
   width: 100%;
   padding: 1rem;
@@ -96,7 +117,7 @@ h4 {
   gap: 1rem;
 }
 
-.library__book-cover {
+.template-cover {
   padding: 1rem 0.5rem;
   color: #222;
   width: 200px;

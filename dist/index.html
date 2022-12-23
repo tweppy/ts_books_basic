@@ -11,7 +11,20 @@
 <body>
     <section class="landing-page">
         <h1 class="landing-page__heading">Classic Children's Books</h1>
+        <header class="landing-page__header">
+            <form class="header__form">
+                <input type="search" id="search-input" placeholder="search a title or author..." data-search>
+            </form> 
+        </header>
         <section class="landing-page__library"></section>
+        <template data-book-template>
+            <article class="template-book">
+                <div class="template-cover" data-cover>
+                <h2 class="template-title" data-title></h2>
+                <h4 class="template-author" data-author></h4>
+                </div>
+            </article>
+        </template>
     </section>
 
     <section class="book-page">
@@ -39,6 +52,6 @@
             </section>
         </section>
     </section>
-    <script src="./js/index.js"></script>
+    <script type="module" src="./js/index.js"></script>
 </body>
 </html>

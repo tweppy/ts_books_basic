@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,78 +7,72 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { overlayElem } from "./modules/elems.js";
 const libraryContainer = document.querySelector('.landing-page__library');
-const landingPage = document.querySelector('.landing-page');
-const overlay = document.querySelector('.book-page');
+const bookTemplate = document.querySelector('[data-book-template]');
+const searchInput = document.querySelector('#search-input');
 const closeBtn = document.querySelector('#header__close-btn');
-const overlayElem = {
-    bookCover: document.querySelector('.book-info__cover'),
-    coverTitle: document.querySelector('.cover__title'),
-    coverAuthor: document.querySelector('.cover__author'),
-    bookTitle: document.querySelector('.details__title'),
-    bookAuthor: document.querySelector('.details__author'),
-    bookPlot: document.querySelector('.details__plot'),
-    statsAudience: document.querySelector('.stats__audience'),
-    statsPages: document.querySelector('.stats__pages'),
-    statsYear: document.querySelector('.stats__year'),
-    statsPublisher: document.querySelector('.stats__publisher')
-};
+const BASE_URL = 'https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books';
+let library = [];
 function getData() {
     return __awaiter(this, void 0, void 0, function* () {
-        const BASE_URL = 'https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books';
-        try {
-            const response = yield fetch(BASE_URL);
-            if (response.status === 200) {
-                const data = yield response.json();
-                renderLibrary(data);
-            }
-            else {
-                throw Error('error');
-            }
-        }
-        catch (error) {
-            console.log(error);
-        }
+        fetch(BASE_URL)
+            .then(response => response.json())
+            .then(data => {
+            const fullData = [...data];
+            console.log(fullData);
+            library = data.map((book) => {
+                const bookElem = bookTemplate.content.cloneNode(true).children[0];
+                libraryContainer.append(bookElem);
+                renderLibrary(bookElem, book);
+                return { title: book.title, author: book.author, element: bookElem }; //returns this when searching
+            });
+        });
     });
 }
-function renderLibrary(data) {
-    for (let i = 0; i < data.length; i++) {
-        let bookElem = data[i];
-        let book = document.createElement('article');
-        book.classList.add('library__book-cover');
-        libraryContainer.appendChild(book);
-        book.innerHTML =
-            `<h2>${bookElem.title}</h2>
-        <h4>${bookElem.author}</h4>`;
-        book.style.backgroundColor = bookElem.color;
-        book.style.borderColor = bookElem.color;
-        book.addEventListener('click', () => {
-            renderBook(bookElem);
-            toggleOverlay();
-        });
-    }
+function renderLibrary(bookElem, book) {
+    const cover = bookElem.querySelector('.template-cover');
+    const title = bookElem.querySelector('.template-title');
+    const author = bookElem.querySelector('.template-author');
+    cover.style.backgroundColor = book.color;
+    cover.style.borderColor = book.color;
+    title.textContent = book.title;
+    author.textContent = book.author;
+    bookElem.addEventListener('click', () => {
+        renderOverlayBook(book);
+        toggleOverlay();
+    });
 }
-function renderBook(bookElem) {
-    if (bookElem.pages === null) {
+function renderOverlayBook(book) {
+    if (book.pages === null) {
         overlayElem.statsPages.textContent = '64';
     }
     else {
-        overlayElem.statsPages.textContent = bookElem.pages.toString();
+        overlayElem.statsPages.textContent = book.pages.toString();
     }
-    overlayElem.bookTitle.textContent = bookElem.title;
-    overlayElem.bookAuthor.textContent = bookElem.author;
-    overlayElem.bookPlot.textContent = bookElem.plot;
-    overlayElem.statsAudience.textContent = bookElem.audience;
-    overlayElem.statsYear.textContent = bookElem.year.toString();
-    overlayElem.statsPublisher.textContent = bookElem.publisher;
-    overlayElem.bookCover.style.backgroundColor = bookElem.color;
-    overlayElem.bookCover.style.borderColor = bookElem.color;
-    overlayElem.coverAuthor.textContent = bookElem.author;
-    overlayElem.coverTitle.textContent = bookElem.title;
+    overlayElem.bookTitle.textContent = book.title;
+    overlayElem.bookAuthor.textContent = book.author;
+    overlayElem.bookPlot.textContent = book.plot;
+    overlayElem.statsAudience.textContent = book.audience;
+    overlayElem.statsYear.textContent = book.year.toString();
+    overlayElem.statsPublisher.textContent = book.publisher;
+    overlayElem.bookCover.style.backgroundColor = book.color;
+    overlayElem.bookCover.style.borderColor = book.color;
+    overlayElem.coverAuthor.textContent = book.author;
+    overlayElem.coverTitle.textContent = book.title;
 }
 function toggleOverlay() {
+    const landingPage = document.querySelector('.landing-page');
+    const overlay = document.querySelector('.book-page');
     overlay.classList.toggle('overlayshow');
     landingPage.classList.toggle('hide');
 }
+searchInput.addEventListener('input', () => {
+    let value = searchInput.value;
+    library.forEach((book) => {
+        const showBook = book.title.toLowerCase().includes(value) || book.author.toLowerCase().includes(value);
+        book.element.classList.toggle('hide', !showBook);
+    });
+});
 closeBtn.addEventListener('click', toggleOverlay);
 getData();
