@@ -18,9 +18,7 @@ function getData() {
     return __awaiter(this, void 0, void 0, function* () {
         fetch(BASE_URL)
             .then(response => response.json())
-            .then(data => {
-            const fullData = [...data];
-            console.log(fullData);
+            .then((data) => {
             library = data.map((book) => {
                 const bookElem = bookTemplate.content.cloneNode(true).children[0];
                 libraryContainer.append(bookElem);

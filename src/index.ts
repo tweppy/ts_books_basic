@@ -5,30 +5,28 @@ const libraryContainer = document.querySelector('.landing-page__library') as HTM
 const bookTemplate = document.querySelector('[data-book-template]')  as HTMLTemplateElement;
 const searchInput = document.querySelector('#search-input') as HTMLInputElement;
 const closeBtn = document.querySelector('#header__close-btn') as HTMLElement;
-const BASE_URL = 'https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books'
+const BASE_URL = 'https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books';
 
-let library: Book[] = [];
+let library: any[] = [];
 
 async function getData() {
     fetch(BASE_URL)
     .then(response => response.json())
-    .then(data => {
-        const fullData: Book[] = [...data];
-        console.log(fullData);
+    .then((data: Book[]) => {
         library = data.map((book: Book) => {
             const bookElem = (<Element> bookTemplate.content.cloneNode(true)).children[0];
             libraryContainer.append(bookElem);
             renderLibrary(bookElem, book);
             return { title: book.title, author: book.author, element: bookElem } //returns this when searching
-        })
-    })
+        });
+    });
 }
 
 function renderLibrary(bookElem: Element, book: Book): void {
     const cover = bookElem.querySelector('.template-cover') as HTMLElement;
     const title = bookElem.querySelector('.template-title') as HTMLElement;
     const author = bookElem.querySelector('.template-author') as HTMLElement;
-    cover.style.backgroundColor = book.color
+    cover.style.backgroundColor = book.color;
     cover.style.borderColor = book.color;
     title.textContent = book.title;
     author.textContent = book.author;

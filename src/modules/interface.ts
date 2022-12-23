@@ -11,6 +11,4 @@ interface Book {
     element: HTMLElement;
 }
 
-
-
 export { Book }
