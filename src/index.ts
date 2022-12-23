@@ -11,7 +11,7 @@ interface Book {
     pages: number;
     plot: string;
     publisher: string;
-    title: string
+    title: string;
     year: number;
 }
 
@@ -29,7 +29,7 @@ const overlayElem = {
 }
 
 async function getData() {
-    const BASE_URL = 'https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books'
+    const BASE_URL = 'https://my-json-server.typicode.com/zocom-christoffer-wallenberg/books-api/books';
     try {
         const response = await fetch(BASE_URL);
         if (response.status === 200) {
@@ -45,7 +45,7 @@ async function getData() {
 
 function renderLibrary(data: Book[]) {
     for (let i = 0; i < data.length; i++) {
-        let bookElem = data[i]
+        let bookElem = data[i];
         let book = document.createElement('article') as HTMLElement;
         book.classList.add('library__book-cover');
         libraryContainer.appendChild(book);
